@@ -1,4 +1,5 @@
 import 'package:MooMooBeenz_App/screens/login.dart';
+import 'package:MooMooBeenz_App/screens/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {

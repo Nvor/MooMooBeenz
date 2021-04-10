@@ -6,6 +6,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  String _email;
+  String _password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,24 +18,47 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 20.0),
-            Text(
-              'Login',
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(height: 20.0),
-            TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(labelText: "Email")),
-            TextFormField(
-              obscureText: true,
-              decoration: InputDecoration(labelText: "Password")),
-            SizedBox(height: 20.0),
-            RaisedButton(child: Text("SIGN IN"), onPressed: () {})
-          ],
-        ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 20.0),
+              Text(
+                'Login',
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                  onSaved: (value) => _email = value,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(labelText: "Email"),
+                  validator: (value) => (value == null || value.isEmpty) ? "Username is required" : null,
+              ),
+              TextFormField(
+                  onSaved: (value) => _password = value,
+                  obscureText: true,
+                  decoration: InputDecoration(labelText: "Password"),
+                  validator: (value) => (value == null || value.isEmpty) ? "Password is required" : null,
+              ),
+              SizedBox(height: 20.0),
+              RaisedButton(
+                  child: Text("SIGN IN"),
+                  onPressed: () {
+                    final form = _formKey.currentState;
+                    form.save();
+
+                    if (form.validate()) {
+                      try {
+                        //call auth api here
+
+                      } on Exception catch (error) {
+                        //auth error to UI
+                      }
+                    }
+                  })
+            ],
+          ),
+        )
       ),
     );
   }
