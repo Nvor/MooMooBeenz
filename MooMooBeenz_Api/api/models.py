@@ -7,6 +7,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String, unique = True, nullable = False)
     password = db.Column(db.String, nullable = False)
+    firstname = db.Column(db.String, nullable = False)
+    lastname = db.Column(db.String, nullable = False)
+    picture = db.Column(db.String)
 
     def save(self):
         db.session.add(self)
@@ -41,6 +44,24 @@ class User(db.Model):
     @staticmethod
     def verify_hash(password, hash):
         return sha256.verify(password, hash)
+
+class MooMooBeenz(db.Model):
+    __tablename__ = 'UserMooMooBeenz'
+    id = db.Column(db.Integer, primary_key = True)
+    userId = db.Column(db.Integer, nullable = False)
+    raterId = db.Column(db.Integer, nullable = False)
+    MooMooBeenz = db.Column(db.Integer, nullable = False)
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_user_moomoobeenz_for_rater(cls, raterId, userId):
+        return cls.query.filter_by(
+            raterId=raterId,
+            userId=userId
+        ).first()
 
 class RevokedToken(db.Model):
     __tablename__ = 'RevokedTokens'

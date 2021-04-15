@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 
-class UserMooMooBeenz {
+class MooMooBeenz {
   int id;
   int userId;
   int raterId;
   int mooMooBeenz;
 
-  UserMooMooBeenz({@required this.id, @required this.userId, @required this.raterId, @required this.mooMooBeenz});
+  MooMooBeenz({@required this.id, @required this.userId, @required this.raterId, @required this.mooMooBeenz});
 
-  factory UserMooMooBeenz.fromJson(Map<String, dynamic> json) {
-    return UserMooMooBeenz(
+  factory MooMooBeenz.fromJson(Map<String, dynamic> json) {
+    return MooMooBeenz(
       id: json['id'],
       userId: json['userId'],
       raterId: json['raterId'],
