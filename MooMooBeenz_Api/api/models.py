@@ -9,7 +9,7 @@ class User(db.Model):
     password = db.Column(db.String, nullable = False)
     firstname = db.Column(db.String, nullable = False)
     lastname = db.Column(db.String, nullable = False)
-    picture = db.Column(db.String)
+    picture = db.Column(db.String, nullable = True)
 
     def save(self):
         db.session.add(self)
@@ -23,6 +23,7 @@ class User(db.Model):
     def get_all(cls):
         def to_json(x):
             return {
+                'id': x.id,
                 'username': x.username,
                 'password': x.password
             }
@@ -46,11 +47,12 @@ class User(db.Model):
         return sha256.verify(password, hash)
 
 class MooMooBeenz(db.Model):
-    __tablename__ = 'UserMooMooBeenz'
+    __tablename__ = 'MooMooBeenz'
+    
     id = db.Column(db.Integer, primary_key = True)
     userId = db.Column(db.Integer, nullable = False)
     raterId = db.Column(db.Integer, nullable = False)
-    MooMooBeenz = db.Column(db.Integer, nullable = False)
+    mooMooBeenz = db.Column(db.Integer, nullable = False)
 
     def save(self):
         db.session.add(self)
@@ -63,8 +65,20 @@ class MooMooBeenz(db.Model):
             userId=userId
         ).first()
 
+    @classmethod
+    def get_all(cls):
+        def to_json(x):
+            return {
+                'id': x.id,
+                'userId': x.userId,
+                'raterId': x.raterId,
+                'MooMooBeenz': x.mooMooBeenz
+            }
+        return {'MooMooBeenz': [to_json(mooMooBeenz) for mooMooBeenz in MooMooBeenz.query.all()]}
+
 class RevokedToken(db.Model):
     __tablename__ = 'RevokedTokens'
+
     id = db.Column(db.Integer, primary_key = True)
     token = db.Column(db.String(100))
 
