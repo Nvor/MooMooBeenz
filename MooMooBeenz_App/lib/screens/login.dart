@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                   validator: (value) => (value == null || value.isEmpty) ? "Password is required" : null,
               ),
               SizedBox(height: 20.0),
-              RaisedButton(
+              ElevatedButton(
                   child: Text("SIGN IN"),
                   onPressed: () {
                     final form = _formKey.currentState;
