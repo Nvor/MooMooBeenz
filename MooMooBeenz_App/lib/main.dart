@@ -1,5 +1,7 @@
 import 'package:MooMooBeenz_App/screens/login.dart';
 import 'package:MooMooBeenz_App/screens/home.dart';
+import 'package:MooMooBeenz_App/screens/password-reset.dart';
+import 'package:MooMooBeenz_App/screens/register.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MooMooBeenz',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.

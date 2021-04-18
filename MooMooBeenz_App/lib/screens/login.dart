@@ -14,7 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login Page"),
+        title: Text("Login"),
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
@@ -55,7 +55,11 @@ class _LoginPageState extends State<LoginPage> {
                         //auth error to UI
                       }
                     }
-                  })
+                  }),
+              SizedBox(height: 20.0),
+              Text('Forgot Password?'),
+              SizedBox(height: 10.0),
+              Text('Don\'t have an account? Sign up.')
             ],
           ),
         )

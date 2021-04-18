@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 
-class RegisterPage extends StatefulWidget {
+class PasswordResetPage extends StatefulWidget {
   @override
-  _RegisterPage createState() => _RegisterPage();
+  _PasswordResetPage createState() => _PasswordResetPage();
 }
 
-class _RegisterPage extends State<RegisterPage> {
+class _PasswordResetPage extends State<PasswordResetPage> {
   final _formKey = GlobalKey<FormState>();
   String _email;
-  String _password;
-  String _firstname;
-  String _lastname;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Register")
+        title: Text("Reset Password")
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
@@ -26,7 +23,7 @@ class _RegisterPage extends State<RegisterPage> {
             children: <Widget>[
               SizedBox(height: 20.0),
               Text(
-                'Register',
+                'Reset Password',
                 style: TextStyle(fontSize: 20)
               ),
               SizedBox(height: 20.0),
@@ -35,36 +32,21 @@ class _RegisterPage extends State<RegisterPage> {
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(labelText: "Email"),
               ),
-              TextFormField(
-                onSaved: (value) => _password = value,
-                obscureText: true,
-                decoration: InputDecoration(labelText: "Password"),
-              ),
-              TextFormField(
-                onSaved: (value) => _firstname = value,
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration(labelText: "First Name"),
-              ),
-              TextFormField(
-                onSaved: (value) => _lastname = value,
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration(labelText: "Last Name"),
-              ),
               SizedBox(height: 20.0),
               ElevatedButton(
-                child: Text("REGISTER"),
+                child: Text("SEND PASSWORD RESET"),
                 onPressed: () {
                   final form = _formKey.currentState;
                   form.save();
 
                   if (form.validate()) {
                     try {
-                      //call register api
+                      //call pw reset api
                     } on Exception catch (error) {
-                      //registration error to UI
+                      //password reset error to UI
                     }
                   }
-                }
+                },
               )
             ]
           )
