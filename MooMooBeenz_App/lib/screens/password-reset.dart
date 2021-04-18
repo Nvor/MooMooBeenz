@@ -1,3 +1,4 @@
+import 'package:MooMooBeenz_App/screens/login.dart';
 import 'package:flutter/material.dart';
 
 class PasswordResetPage extends StatefulWidget {
@@ -42,6 +43,12 @@ class _PasswordResetPage extends State<PasswordResetPage> {
                   if (form.validate()) {
                     try {
                       //call pw reset api
+
+                      //return to login screen, display pw reset comm toast
+                      Navigator.pop(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage())
+                      );
                     } on Exception catch (error) {
                       //password reset error to UI
                     }

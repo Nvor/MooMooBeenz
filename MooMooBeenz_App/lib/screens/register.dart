@@ -1,3 +1,4 @@
+import 'package:MooMooBeenz_App/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -60,6 +61,12 @@ class _RegisterPage extends State<RegisterPage> {
                   if (form.validate()) {
                     try {
                       //call register api
+
+                      //on successful registration, login and navigate home
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage())
+                      );
                     } on Exception catch (error) {
                       //registration error to UI
                     }

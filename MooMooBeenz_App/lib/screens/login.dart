@@ -1,3 +1,6 @@
+import 'package:MooMooBeenz_App/screens/home.dart';
+import 'package:MooMooBeenz_App/screens/password-reset.dart';
+import 'package:MooMooBeenz_App/screens/register.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -51,15 +54,36 @@ class _LoginPageState extends State<LoginPage> {
                       try {
                         //call auth api here
 
+                        //on successful login, navigate home
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage())
+                        );
                       } on Exception catch (error) {
                         //auth error to UI
                       }
                     }
                   }),
-              SizedBox(height: 20.0),
-              Text('Forgot Password?'),
               SizedBox(height: 10.0),
-              Text('Don\'t have an account? Sign up.')
+              OutlinedButton(
+                child: Text("Forgot Password?"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PasswordResetPage())
+                  );
+                }
+              ),
+              SizedBox(height: 5.0),
+              OutlinedButton(
+                child: Text('Don\'t have an account? Sign up.'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RegisterPage())
+                  );
+                },
+              )
             ],
           ),
         )
