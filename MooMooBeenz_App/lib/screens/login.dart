@@ -1,6 +1,7 @@
 import 'package:MooMooBeenz_App/screens/home.dart';
 import 'package:MooMooBeenz_App/screens/password-reset.dart';
 import 'package:MooMooBeenz_App/screens/register.dart';
+import 'package:MooMooBeenz_App/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -88,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         )
       ),
+      drawer: CustomDrawer()
     );
   }
 }
