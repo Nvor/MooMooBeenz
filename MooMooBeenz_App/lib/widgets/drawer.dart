@@ -1,6 +1,7 @@
 import 'package:MooMooBeenz_App/screens/login.dart';
 import 'package:MooMooBeenz_App/screens/password-reset.dart';
 import 'package:MooMooBeenz_App/screens/register.dart';
+import 'package:MooMooBeenz_App/screens/settings.dart';
 import 'package:flutter/material.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -52,6 +53,17 @@ class CustomDrawer extends StatelessWidget {
             title: Text('Language'),
             onTap: () {
               Navigator.pop(context);
+            }
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage())
+              );
             }
           ),
           ListTile(
