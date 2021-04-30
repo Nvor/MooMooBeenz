@@ -1,3 +1,4 @@
+import 'package:MooMooBeenz_App/widgets/labeled-switch.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -7,7 +8,9 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final _formKey = GlobalKey<FormState>();
-  bool isSwitched = false;
+  bool notifications = false;
+  bool rememberLogin = false;
+  bool hideProfile = false;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +18,43 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: Text('Settings')
       ),
-      body: Center(
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            LabeledSwitch(
+                label: 'Notifications on/off',
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                value: notifications,
+                onChanged: (bool newValue) {
+                  setState(() {
+                    notifications = newValue;
+                  });
+                }
+            ),
+            LabeledSwitch(
+                label: 'Remember login',
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                value: rememberLogin,
+                onChanged: (bool newValue) {
+                  setState(() {
+                    rememberLogin = newValue;
+                  });
+                }
+            ),
+            LabeledSwitch(
+                label: 'Hide my profile',
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                value: hideProfile,
+                onChanged: (bool newValue) {
+                  setState(() {
+                    hideProfile = newValue;
+                  });
+                }
+            )
+          ],
+        )
+      )
+      /*body: Container(
         child: Switch(
           value: isSwitched,
           onChanged: (value) {
@@ -23,10 +62,10 @@ class _SettingsPageState extends State<SettingsPage> {
               isSwitched = value;
             });
           },
-          activeTrackColor: Colors.green,
+          activeTrackColor: Colors.grey,
           activeColor: Colors.purple
         )
-      )
+      )*/
     );
   }
 }
