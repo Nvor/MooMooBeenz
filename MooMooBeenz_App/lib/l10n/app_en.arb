@@ -1,0 +1,7 @@
+{
+  "test": "Hello World!",
+  "@test": {
+    "description": "Hi"
+  },
+  "home": "Home"
+}
