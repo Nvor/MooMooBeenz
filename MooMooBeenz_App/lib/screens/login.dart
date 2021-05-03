@@ -1,6 +1,7 @@
 import 'package:MooMooBeenz_App/screens/home.dart';
 import 'package:MooMooBeenz_App/screens/password-reset.dart';
 import 'package:MooMooBeenz_App/screens/register.dart';
+import 'package:MooMooBeenz_App/services/auth.dart';
 import 'package:MooMooBeenz_App/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  AuthService authService = new AuthService();
   final _formKey = GlobalKey<FormState>();
   String _email;
   String _password;
@@ -49,19 +51,18 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text("SIGN IN"),
                   onPressed: () {
                     final form = _formKey.currentState;
-                    form.save();
 
                     if (form.validate()) {
                       try {
-                        //call auth api here
+                        form.save();
+                        var user = authService.loginUser(_email, _password);
 
-                        //on successful login, navigate home
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => HomePage())
                         );
                       } on Exception catch (error) {
-                        //auth error to UI
+                        throw new Exception("Error trying to login");
                       }
                     }
                   }),

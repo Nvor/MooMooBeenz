@@ -1,7 +1,11 @@
+import 'package:MooMooBeenz_App/models/user.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'api.dart';
+
 class AuthService with ChangeNotifier {
+  ApiService api = new ApiService();
   var currentUser;
 
   AuthService() {
@@ -19,7 +23,11 @@ class AuthService with ChangeNotifier {
       String lastName
     }) async {}
 
-  Future loginUser({String email, String password}) {
+  Future<User> loginUser(String email, String password) {
+    var user = api.post("login", body: {
+      "username": email,
+      "password": password
+    });
     if (password == "placeholderTrue") {
       this.currentUser = {'email': email};
       notifyListeners();
