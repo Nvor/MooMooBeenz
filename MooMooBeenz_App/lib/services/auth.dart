@@ -12,16 +12,20 @@ class AuthService with ChangeNotifier {
     print("AuthService Initialized");
   }
 
-  Future getUser() {
+  Future<User> getUser() {
     return Future.value(currentUser);
   }
 
-  Future createUser(
-    { String email,
-      String password,
-      String firstName,
-      String lastName
-    }) async {}
+  Future<User> createUser(String email, String password, String firstName, String lastName) async {
+    var user = api.post("registration", body: {
+      "username": email,
+      "password": password,
+      "firstname": firstName,
+      "lastname": lastName
+    });
+
+    return user;
+  }
 
   Future<User> loginUser(String email, String password) {
     var user = api.post("login", body: {

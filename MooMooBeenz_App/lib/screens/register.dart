@@ -1,4 +1,5 @@
 import 'package:MooMooBeenz_App/screens/home.dart';
+import 'package:MooMooBeenz_App/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -7,6 +8,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPage extends State<RegisterPage> {
+  AuthService authService = new AuthService();
   final _formKey = GlobalKey<FormState>();
   String _email;
   String _password;
@@ -56,17 +58,20 @@ class _RegisterPage extends State<RegisterPage> {
                 child: Text("REGISTER"),
                 onPressed: () {
                   final form = _formKey.currentState;
-                  form.save();
 
                   if (form.validate()) {
                     try {
-                      //call register api
-
-                      //on successful registration, login and navigate home
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage())
-                      );
+                      form.save();
+                      var user = authService.createUser(_email, _password, _firstname, _lastname);
+                      if (user == null) {
+                        throw new Exception("Error creating new user");
+                      } else {
+                        //on successful registration, login and navigate home
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage())
+                        );
+                      }
                     } on Exception catch (error) {
                       //registration error to UI
                     }
