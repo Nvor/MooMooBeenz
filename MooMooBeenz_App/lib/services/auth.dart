@@ -17,7 +17,7 @@ class AuthService with ChangeNotifier {
   }
 
   Future<User> createUser(String email, String password, String firstName, String lastName) async {
-    var user = api.post("registration", body: {
+    var user = await api.post("registration", body: {
       "username": email,
       "password": password,
       "firstname": firstName,
@@ -27,8 +27,8 @@ class AuthService with ChangeNotifier {
     return user;
   }
 
-  Future<User> loginUser(String email, String password) {
-    var user = api.post("login", body: {
+  Future<User> loginUser(String email, String password) async {
+    var user = await api.post("login", body: {
       "username": email,
       "password": password
     });

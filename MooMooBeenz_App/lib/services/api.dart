@@ -7,20 +7,16 @@ class ApiService with ChangeNotifier {
 
   Future<dynamic> get(String resource) async {
     Uri url = Uri.parse(apiUrl + resource);
-    var response = await http.get(url)
-        .then((http.Response response) {
-          validateHttpResponse(response);
-        });
+    var response = await http.get(url);
+    validateHttpResponse(response);
 
     return jsonDecode(response.body);
   }
 
   Future<dynamic> post(String resource, {Map<String, String> body}) async {
     Uri url = Uri.parse(apiUrl + resource);
-    var response = await http.post(url, body: body)
-        .then((http.Response response) {
-          validateHttpResponse(response);
-      });
+    var response = await http.post(url, body: body);
+    validateHttpResponse(response);
 
     return jsonDecode(response.body);
   }
