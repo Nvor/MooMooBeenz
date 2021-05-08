@@ -24,7 +24,7 @@ class UserRegistration(Resource):
         if User.find_by_username(data['username']):
             return {
                 'message': 'User {} already exists'.format(data['username'])
-            }
+            }, 400
 
         user = User(
             username = data['username'],
@@ -54,7 +54,7 @@ class UserLogin(Resource):
         user = User.find_by_username(data['username'])
 
         if not user:
-            return {'message': 'User {} does not exist'.format(data['username'])}
+            return {'message': 'User {} does not exist'.format(data['username'])}, 400
 
         if User.verify_hash(data['password'], user.password):
             access_token = create_access_token(identity = data['username'])
@@ -65,7 +65,7 @@ class UserLogin(Resource):
                 'refresh_token': refresh_token
             }
         else:
-            return {'message': 'Incorrect password'}
+            return {'message': 'Incorrect password'}, 400
 
 class UserLogoutAccess(Resource):
     @jwt_required
@@ -124,7 +124,7 @@ class AddMooMooBeenz(Resource):
                     .format(mooMooBeenz.raterId, mooMooBeenz.mooMooBeenz, mooMooBeenz.userId)
             }, 200
         except:
-            return {'message': 'Error trying to assign MooMooBeenz'}
+            return {'message': 'Error trying to assign MooMooBeenz'}, 500
 
 class AllMooMooBeenz(Resource):
     def get(self):
