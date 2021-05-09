@@ -20,12 +20,14 @@ class _PasswordResetPage extends State<PasswordResetPage> {
         padding: EdgeInsets.all(20.0),
         child: Form(
           key: _formKey,
-          child: Column(
+          child: ListView(
             children: <Widget>[
               SizedBox(height: 20.0),
-              Text(
-                'Reset Password',
-                style: TextStyle(fontSize: 20)
+              Center(
+                child: Text(
+                    'Reset Password',
+                    style: TextStyle(fontSize: 20)
+                )
               ),
               SizedBox(height: 20.0),
               TextFormField(
@@ -38,6 +40,9 @@ class _PasswordResetPage extends State<PasswordResetPage> {
                 child: Text("SEND PASSWORD RESET"),
                 onPressed: () {
                   final form = _formKey.currentState;
+                  final snackBar = SnackBar(
+                    content: Text('Password reset sent')
+                  );
                   form.save();
 
                   if (form.validate()) {
@@ -49,6 +54,7 @@ class _PasswordResetPage extends State<PasswordResetPage> {
                         context,
                         MaterialPageRoute(builder: (context) => LoginPage())
                       );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } on Exception catch (error) {
                       //password reset error to UI
                     }

@@ -26,12 +26,14 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.all(20.0),
         child: Form(
           key: _formKey,
-          child: Column(
+          child: ListView(
             children: <Widget>[
               SizedBox(height: 20.0),
-              Text(
-                'Login',
-                style: TextStyle(fontSize: 20),
+              Center(
+                child: Text(
+                  'Login',
+                  style: TextStyle(fontSize: 20),
+                )
               ),
               SizedBox(height: 20.0),
               TextFormField(
