@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:MooMooBeenz_App/models/user.dart';
 import 'package:MooMooBeenz_App/services/secure-storage.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class AuthService with ChangeNotifier {
   }
 
   Future<User> createUser(String email, String password, String firstName, String lastName) async {
-    var createUserResult = await api.post("registration", body: {
+    var createUserResult = await api.post("registration", {
       "username": email,
       "password": password,
       "firstname": firstName,
@@ -38,12 +39,12 @@ class AuthService with ChangeNotifier {
   }
 
   Future<User> loginUser(String email, String password) async {
-    var loginResult = await api.post("login", body: {
+    var loginResult = await api.post("login", {
       "username": email,
       "password": password
     });
 
-    User user = User.fromJson(loginResult);
+    User user = User.fromJson(loginResult["user"]);
     if (user.id > 0) {
       storeIdentity(loginResult);
       currentUser = user;
@@ -58,6 +59,12 @@ class AuthService with ChangeNotifier {
     this.currentUser = null;
     notifyListeners();
     return Future.value(currentUser);
+  }
+
+  Future<Map<String, String>> getAuthorizationHeaders() async {
+    return {
+      HttpHeaders.authorizationHeader: "Bearer ${await secureStorage.get("access_token")}"
+    };
   }
 
   Future<void> storeIdentity(dynamic authResult) async {

@@ -15,6 +15,15 @@ class User(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def to_json(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'firstname': self.firstname,
+            'lastname': self.lastname,
+            'picture': self.picture
+        }
+
     @classmethod
     def find_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
