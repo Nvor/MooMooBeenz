@@ -12,6 +12,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   AuthService authService = new AuthService();
+  bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
   String _email;
   String _password;
@@ -49,25 +50,14 @@ class _LoginPageState extends State<LoginPage> {
                   validator: (value) => (value == null || value.isEmpty) ? "Password is required" : null,
               ),
               SizedBox(height: 20.0),
-              ElevatedButton(
+              !isLoading ? ElevatedButton(
                   child: Text("SIGN IN"),
                   onPressed: () {
-                    final form = _formKey.currentState;
-
-                    if (form.validate()) {
-                      try {
-                        form.save();
-                        var user = authService.loginUser(_email, _password);
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomePage())
-                        );
-                      } on Exception catch (error) {
-                        throw new Exception("Error trying to login");
-                      }
-                    }
-                  }),
+                    this.login();
+                  })
+              : Center(
+                child: CircularProgressIndicator()
+              ),
               SizedBox(height: 10.0),
               OutlinedButton(
                 child: Text("Forgot Password?"),
@@ -94,5 +84,29 @@ class _LoginPageState extends State<LoginPage> {
       ),
       drawer: CustomDrawer()
     );
+  }
+
+  Future<void> login() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final form = _formKey.currentState;
+    try {
+      form.save();
+      var user = await authService.loginUser(_email, _password);
+      if (user != null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage())
+        );
+      }
+    } on Exception catch (error) {
+      throw new Exception("Error trying to login");
+    }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 }
