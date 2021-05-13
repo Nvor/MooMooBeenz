@@ -92,17 +92,19 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     final form = _formKey.currentState;
-    try {
-      form.save();
-      var user = await authService.loginUser(_email, _password);
-      if (user != null) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage())
-        );
+    if (form.validate()) {
+      try {
+        form.save();
+        var user = await authService.loginUser(_email, _password);
+        if (user != null) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage())
+          );
+        }
+      } on Exception catch (error) {
+        throw new Exception("Error trying to login");
       }
-    } on Exception catch (error) {
-      throw new Exception("Error trying to login");
     }
 
     setState(() {
