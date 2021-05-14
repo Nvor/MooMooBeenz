@@ -9,6 +9,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPage extends State<RegisterPage> {
   AuthService authService = new AuthService();
+  bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
   String _email;
   String _password;
@@ -39,51 +40,64 @@ class _RegisterPage extends State<RegisterPage> {
                 onSaved: (value) => _email = value,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(labelText: "Email"),
+                validator: (value) => (value == null || value.isEmpty) ? "Email is required" : null,
               ),
               TextFormField(
                 onSaved: (value) => _password = value,
                 obscureText: true,
                 decoration: InputDecoration(labelText: "Password"),
+                validator: (value) => (value == null || value.isEmpty) ? "Password is required" : null,
               ),
               TextFormField(
                 onSaved: (value) => _firstname = value,
                 keyboardType: TextInputType.name,
                 decoration: InputDecoration(labelText: "First Name"),
+                validator: (value) => (value == null || value.isEmpty) ? "First name is required" : null,
               ),
               TextFormField(
                 onSaved: (value) => _lastname = value,
                 keyboardType: TextInputType.name,
                 decoration: InputDecoration(labelText: "Last Name"),
+                validator: (value) => (value == null || value.isEmpty) ? "Last name is required" : null,
               ),
               SizedBox(height: 20.0),
-              ElevatedButton(
+              !isLoading ? ElevatedButton(
                 child: Text("REGISTER"),
                 onPressed: () {
-                  final form = _formKey.currentState;
-
-                  if (form.validate()) {
-                    try {
-                      form.save();
-                      var user = authService.createUser(_email, _password, _firstname, _lastname);
-                      if (user == null) {
-                        throw new Exception("Error creating new user");
-                      } else {
-                        //on successful registration, login and navigate home
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage())
-                        );
-                      }
-                    } on Exception catch (error) {
-                      //registration error to UI
-                    }
-                  }
-                }
+                  this.register();
+                })
+              : Center(
+                child: CircularProgressIndicator()
               )
             ]
           )
         )
       )
     );
+  }
+
+  Future<void> register() async {
+    setState(() {
+      isLoading = true;
+    });
+    final form = _formKey.currentState;
+
+    if (form.validate()) {
+      try {
+        form.save();
+        var user = await authService.createUser(_email, _password, _firstname, _lastname);
+        if (user != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage())
+          );
+        }
+      } on Exception catch (error) {
+        throw new Exception("Error creating new user");
+      }
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 }

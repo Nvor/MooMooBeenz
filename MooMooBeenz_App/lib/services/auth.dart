@@ -27,10 +27,11 @@ class AuthService with ChangeNotifier {
       "lastname": lastName
     });
 
-    User user = User.fromJson(createUserResult);
+    User user = User.fromJson(createUserResult["user"]);
     if (user.id > 0) {
       storeIdentity(createUserResult);
       currentUser = user;
+      return currentUser;
     } else {
       currentUser = null;
     }
@@ -55,7 +56,9 @@ class AuthService with ChangeNotifier {
     }
   }
 
-  Future logoutUser() {
+  Future logoutUser() async {
+    await deleteIdentity();
+    await api.post("logout/access", {}, headers: await getAuthorizationHeaders());
     this.currentUser = null;
     notifyListeners();
     return Future.value(currentUser);
@@ -70,5 +73,10 @@ class AuthService with ChangeNotifier {
   Future<void> storeIdentity(dynamic authResult) async {
     await secureStorage.set("access_token", authResult['access_token']);
     await secureStorage.set("refresh_token", authResult['refresh_token']);
+  }
+
+  Future<void> deleteIdentity() async {
+    await secureStorage.delete("access_token");
+    await secureStorage.delete("refresh_token");
   }
 }

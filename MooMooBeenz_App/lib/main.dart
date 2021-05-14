@@ -3,6 +3,7 @@ import 'package:MooMooBeenz_App/screens/home.dart';
 import 'package:MooMooBeenz_App/screens/password-reset.dart';
 import 'package:MooMooBeenz_App/screens/register.dart';
 import 'package:MooMooBeenz_App/screens/welcome.dart';
+import 'package:MooMooBeenz_App/widgets/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         const Locale('fr', '')
       ],
       theme: ThemeData(
-        primarySwatch: Colors.purple,
+        primarySwatch: primaryBlack,
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.

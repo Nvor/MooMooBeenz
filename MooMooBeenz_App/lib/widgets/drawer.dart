@@ -2,9 +2,11 @@ import 'package:MooMooBeenz_App/screens/login.dart';
 import 'package:MooMooBeenz_App/screens/password-reset.dart';
 import 'package:MooMooBeenz_App/screens/register.dart';
 import 'package:MooMooBeenz_App/screens/settings.dart';
+import 'package:MooMooBeenz_App/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class CustomDrawer extends StatelessWidget {
+  AuthService authService = new AuthService();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -23,6 +25,17 @@ class CustomDrawer extends StatelessWidget {
             title: Text('Login'),
             onTap: () {
               Navigator.pop(context);
+            }
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('Logout'),
+            onTap: () {
+              this.logout();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage())
+              );
             }
           ),
           ListTile(
@@ -76,5 +89,9 @@ class CustomDrawer extends StatelessWidget {
         ]
       )
     );
+  }
+
+  void logout() async {
+    await authService.logoutUser();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:MooMooBeenz_App/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -16,7 +17,8 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Center(
         child: Text('Home Page Content'),
-      )
+      ),
+      drawer: CustomDrawer(),
     );
   }
 }
