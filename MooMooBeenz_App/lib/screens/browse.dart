@@ -2,6 +2,8 @@ import 'package:MooMooBeenz_App/screens/view.dart';
 import 'package:flutter/material.dart';
 
 class BrowsePage extends StatefulWidget {
+  const BrowsePage({Key key}) : super(key: key);
+
   @override
   _BrowsePageState createState() => _BrowsePageState();
 }
