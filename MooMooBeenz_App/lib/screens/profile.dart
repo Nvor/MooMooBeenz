@@ -1,3 +1,6 @@
+import 'package:MooMooBeenz_App/widgets/moomoobeenz-card.dart';
+import 'package:MooMooBeenz_App/widgets/user-header-card.dart';
+import 'package:MooMooBeenz_App/widgets/user-summary-card.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -15,8 +18,14 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: Text("Profile")
       ),
-      body: Center(
-        child: Text("Test Profile Page")
+      body: Container(
+        child: ListView(
+          children: <Widget> [
+            UserHeaderCard(),
+            MooMooBeenzCard(),
+            UserSummaryCard()
+          ]
+        )
       )
     );
   }
