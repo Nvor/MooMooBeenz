@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:MooMooBeenz_App/models/user.dart';
 import 'package:MooMooBeenz_App/services/secure-storage.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
 import 'api.dart';
@@ -9,7 +11,7 @@ import 'api.dart';
 class AuthService with ChangeNotifier {
   ApiService api = new ApiService();
   SecureStorageService secureStorage = new SecureStorageService();
-  var currentUser;
+  User currentUser;
 
   AuthService() {
     print("AuthService Initialized");
@@ -71,11 +73,17 @@ class AuthService with ChangeNotifier {
   }
 
   Future<void> storeIdentity(dynamic authResult) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('user', jsonEncode(currentUser));
+
     await secureStorage.set("access_token", authResult['access_token']);
     await secureStorage.set("refresh_token", authResult['refresh_token']);
   }
 
   Future<void> deleteIdentity() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('user');
+
     await secureStorage.delete("access_token");
     await secureStorage.delete("refresh_token");
   }
