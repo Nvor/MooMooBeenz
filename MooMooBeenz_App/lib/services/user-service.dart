@@ -10,9 +10,14 @@ class UserService with ChangeNotifier {
     initUser();
   }
 
-  void initUser() async {
+  Future<User> initUser() async {
     sharedPrefs = await SharedPreferences.getInstance();
-    this.currentUser = jsonDecode(sharedPrefs.getString('user'));
+    this.currentUser = User.fromJson(jsonDecode(sharedPrefs.getString('user')));
+    return currentUser;
+  }
+
+  Future<User> getUser() async {
+    return currentUser;
   }
 
   String getUsername() {
@@ -20,15 +25,15 @@ class UserService with ChangeNotifier {
   }
 
   String getFirstName() {
-    return currentUser.firstName ?? "";
+    return currentUser.firstname ?? "";
   }
 
   String getLastName() {
-    return currentUser.lastName ?? "";
+    return currentUser.lastname ?? "";
   }
 
   String getFullName() {
-    return "${currentUser.firstName} ${currentUser.lastName}";
+    return "${currentUser.firstname} ${currentUser.lastname}";
   }
 
   String getPicture() {
