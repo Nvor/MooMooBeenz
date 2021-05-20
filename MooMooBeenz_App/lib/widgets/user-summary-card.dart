@@ -1,3 +1,5 @@
+import 'package:MooMooBeenz_App/models/user.dart';
+import 'package:MooMooBeenz_App/services/user-service.dart';
 import 'package:flutter/material.dart';
 
 class UserSummaryCard extends StatefulWidget {
@@ -6,6 +8,7 @@ class UserSummaryCard extends StatefulWidget {
 }
 
 class _UserSummaryCard extends State<UserSummaryCard> {
+  UserService userService = new UserService();
   bool canEdit = true;
   bool inEditMode = false;
   final _formKey = GlobalKey<FormState>();
@@ -88,10 +91,16 @@ class _UserSummaryCard extends State<UserSummaryCard> {
     );
   }
 
-  void saveSummary() {
+  void saveSummary() async {
     final form = _formKey.currentState;
-    form.save();
-    //save user summary api call
+    try {
+      form.save();
+      User user = await userService.getUser();
+      user.summary = _summary;
+      userService.saveUserData(user);
+    } on Exception catch (error) {
+      throw new Exception('Error saving summary');
+    }
 
     exitEditMode();
   }

@@ -5,9 +5,10 @@ class User {
   String username;
   String firstname;
   String lastname;
+  String summary;
   String picture;
 
-  User({@required this.id, @required this.username, @required this.firstname, @required this.lastname, @required this.picture});
+  User({@required this.id, @required this.username, @required this.firstname, @required this.lastname, @required this.summary, @required this.picture});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -15,6 +16,7 @@ class User {
       username: json['username'],
       firstname: json['firstname'],
       lastname: json['lastname'],
+      summary: json['summary'],
       picture: json['picture']
     );
   }
@@ -24,6 +26,7 @@ class User {
     'username': username,
     'firstname': firstname,
     'lastname': lastname,
+    'summary': summary,
     'picture': picture
   };
 }

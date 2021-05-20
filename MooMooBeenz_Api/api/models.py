@@ -9,6 +9,7 @@ class User(db.Model):
     password = db.Column(db.String, nullable = False)
     firstname = db.Column(db.String, nullable = False)
     lastname = db.Column(db.String, nullable = False)
+    summary = db.Column(db.String, nullable = True)
     picture = db.Column(db.String, nullable = True)
 
     def save(self):
@@ -21,12 +22,17 @@ class User(db.Model):
             'username': self.username,
             'firstname': self.firstname,
             'lastname': self.lastname,
+            'summary': self.summary,
             'picture': self.picture
         }
 
     @classmethod
     def find_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id = id).first()
 
     @classmethod
     def get_all(cls):

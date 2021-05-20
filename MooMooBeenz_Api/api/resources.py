@@ -16,6 +16,7 @@ class UserRegistration(Resource):
     urParser = userParser.copy()
     urParser.add_argument('firstname', required = True)
     urParser.add_argument('lastname', required = True)
+    urParser.add_argument('summary', required = False)
     urParser.add_argument('picture', required = False)
 
     def post(self):
@@ -31,6 +32,7 @@ class UserRegistration(Resource):
             password = User.generate_hash(data['password']),
             firstname = data['firstname'],
             lastname = data['lastname'],
+            summary = data['summary'],
             picture = data['picture']
         )
         try:
@@ -105,6 +107,30 @@ class AllUsers(Resource):
 
     def delete(self):
         return User.delete_all()
+
+class User(Resource):
+    def get(self):
+        data = userParser.parse_args()
+        return User.find_by_id(data['id'])
+
+    def post(self):
+        data = userParser.parse_args()
+        if User.find_by_id(data['id']):
+            userSave = User(
+                id = data['id'],
+                username = data['username'],
+                firstname = data['firstname'],
+                lastname = data['lastname'],
+                summary = data['summary'],
+                picture = data['picture']
+            )
+            try:
+                userSave.save()
+                return {'user': userSave.to_json()}, 200
+            except:
+                return {'message': 'Error trying to save user data'}, 500
+        else:
+            return {'message': 'Invalid user id provided'}, 400
 
 class AddMooMooBeenz(Resource):
     # @jwt_refresh_token_required

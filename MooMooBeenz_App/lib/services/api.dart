@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 class ApiService with ChangeNotifier {
   final String apiUrl = "http://10.0.2.2:5000/";
 
-  Future<dynamic> get(String resource) async {
+  Future<dynamic> get(String resource, Map<String, String> body, {Map<String, String> headers}) async {
     Uri url = Uri.parse(apiUrl + resource);
     var response = await http.get(url);
     validateHttpResponse(response);

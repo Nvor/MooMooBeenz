@@ -49,8 +49,8 @@ class AuthService with ChangeNotifier {
 
     User user = User.fromJson(loginResult["user"]);
     if (user.id > 0) {
-      storeIdentity(loginResult);
       currentUser = user;
+      storeIdentity(loginResult);
       return currentUser;
     } else {
       this.currentUser = null;
