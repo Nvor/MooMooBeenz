@@ -108,7 +108,7 @@ class AllUsers(Resource):
     def delete(self):
         return User.delete_all()
 
-class User(Resource):
+class UserData(Resource):
     def get(self):
         data = userParser.parse_args()
         return User.find_by_id(data['id'])

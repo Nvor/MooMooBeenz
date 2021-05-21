@@ -25,7 +25,7 @@ def create_app(config_name):
     api.add_resource(resources.UserLogoutRefresh, '/logout/refresh')
     api.add_resource(resources.TokenRefresh, '/token/refresh')
     api.add_resource(resources.AllUsers, '/users')
-    api.add_resource(resources.User, '/user')
+    api.add_resource(resources.UserData, '/user')
     api.add_resource(resources.AddMooMooBeenz, '/moomoobeenz/add')
     api.add_resource(resources.AllMooMooBeenz, '/moomoobeenz')
 
