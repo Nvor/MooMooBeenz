@@ -7,6 +7,14 @@ userParser = reqparse.RequestParser()
 userParser.add_argument('username', required = True)
 userParser.add_argument('password', required = True)
 
+userDataParser = reqparse.RequestParser()
+userDataParser.add_argument('id', required = True)
+userDataParser.add_argument('username', required = True)
+userDataParser.add_argument('firstname', required = True)
+userDataParser.add_argument('lastname', required = True)
+userDataParser.add_argument('summary', required = False)
+userDataParser.add_argument('picture', required = False)
+
 mooMooBeenzParser = reqparse.RequestParser()
 mooMooBeenzParser.add_argument('userId', required = True)
 mooMooBeenzParser.add_argument('raterId', required = True)
@@ -109,12 +117,14 @@ class AllUsers(Resource):
         return User.delete_all()
 
 class UserData(Resource):
+    udParser = userDataParser.copy()
+
     def get(self):
-        data = userParser.parse_args()
+        data = self.udParser.parse_args()
         return User.find_by_id(data['id'])
 
     def post(self):
-        data = userParser.parse_args()
+        data = self.udParser.parse_args()
         if User.find_by_id(data['id']):
             userSave = User(
                 id = data['id'],
