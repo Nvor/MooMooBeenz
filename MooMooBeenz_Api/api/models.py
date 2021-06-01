@@ -40,7 +40,10 @@ class User(db.Model):
             return {
                 'id': x.id,
                 'username': x.username,
-                'password': x.password
+                'password': x.password,
+                'firstname': x.firstname,
+                'lastname': x.lastname,
+                'summary': x.summary
             }
         return {'users': [to_json(user) for user in User.query.all()]}
 

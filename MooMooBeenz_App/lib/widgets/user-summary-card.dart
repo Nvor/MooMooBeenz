@@ -91,6 +91,10 @@ class _UserSummaryCard extends State<UserSummaryCard> {
     );
   }
 
+  String getUserSummary() {
+    return userService.currentUser.summary ?? "";
+  }
+
   void saveSummary() async {
     final form = _formKey.currentState;
     try {
@@ -102,14 +106,14 @@ class _UserSummaryCard extends State<UserSummaryCard> {
       throw new Exception('Error saving summary');
     }
 
-    exitEditMode();
+    await exitEditMode();
   }
 
   Future<void> enterEditMode() async {
     setState(() => inEditMode = true);
   }
 
-  void exitEditMode() {
+  Future<void> exitEditMode() async {
     setState(() => inEditMode = false);
   }
 }

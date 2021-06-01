@@ -39,10 +39,14 @@ class UserService with ChangeNotifier {
 
   Future<User> saveUserData(User user) async {
     var saveResult = await api.post("user", {
-      "user": jsonEncode(user)
+      "id": user.id.toString(),
+      "firstname": user.firstname,
+      "lastname": user.lastname,
+      "summary": user.summary,
+      "picture": user.picture
     });
 
-    User updatedUser = User.fromJson(jsonDecode(saveResult));
+    User updatedUser = User.fromJson(saveResult);
     if (updatedUser != null) {
       currentUser = updatedUser;
       sharedPrefs.setString('user', jsonEncode(currentUser));

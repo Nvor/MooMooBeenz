@@ -9,7 +9,6 @@ userParser.add_argument('password', required = True)
 
 userDataParser = reqparse.RequestParser()
 userDataParser.add_argument('id', required = True)
-userDataParser.add_argument('username', required = True)
 userDataParser.add_argument('firstname', required = True)
 userDataParser.add_argument('lastname', required = True)
 userDataParser.add_argument('summary', required = False)
@@ -125,18 +124,15 @@ class UserData(Resource):
 
     def post(self):
         data = self.udParser.parse_args()
-        if User.find_by_id(data['id']):
-            userSave = User(
-                id = data['id'],
-                username = data['username'],
-                firstname = data['firstname'],
-                lastname = data['lastname'],
-                summary = data['summary'],
-                picture = data['picture']
-            )
+        user = User.find_by_id(data['id'])
+        if user:
+            user.firstname = data['firstname']
+            user.lastname = data['lastname']
+            user.summary = data['summary']
+            user.picture = data['picture']
             try:
-                userSave.save()
-                return {'user': userSave.to_json()}, 200
+                user.save()
+                return user.to_json(), 200
             except:
                 return {'message': 'Error trying to save user data'}, 500
         else:
