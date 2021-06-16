@@ -13,86 +13,103 @@ class _UserSummaryCard extends State<UserSummaryCard> {
   bool inEditMode = false;
   final _formKey = GlobalKey<FormState>();
   String _summary = "";
+  User currentUser;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                  'Summary',
-                  textScaleFactor: 1.5,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500
-                  ))
-                ),
-                Expanded(
-                  flex: 0,
-                  child: Ink(
-                    child: canEdit ? (inEditMode ?
-                      Row(
+    return FutureBuilder<User>(
+        future: getUserData(),
+        builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+          if (snapshot.hasData) {
+            return Card(
+                child: Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Column(
                         children: [
-                          IconButton(
-                            icon: Icon(Icons.cancel),
-                            onPressed: () => exitEditMode()
+                          Row(
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                        'Summary',
+                                        textScaleFactor: 1.5,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500
+                                        ))
+                                ),
+                                Expanded(
+                                    flex: 0,
+                                    child: Ink(
+                                        child: canEdit ? (inEditMode ?
+                                        Row(
+                                            children: [
+                                              IconButton(
+                                                  icon: Icon(Icons.cancel),
+                                                  onPressed: () => exitEditMode()
+                                              ),
+                                              IconButton(
+                                                  icon: Icon(Icons.save),
+                                                  onPressed: () => saveSummary()
+                                              )
+                                            ]
+                                        ) : IconButton(
+                                            icon: Icon(Icons.edit),
+                                            onPressed: () => enterEditMode()
+                                        )) : Container(height:0)
+                                    )
+                                )
+                              ]
                           ),
-                          IconButton(
-                            icon: Icon(Icons.save),
-                            onPressed: () => saveSummary()
+                          SizedBox(height: 10.0),
+                          Row(
+                              children: [
+                                Form(
+                                    key: _formKey,
+                                    child: Flexible(child:
+                                    inEditMode ?
+                                    TextFormField(
+                                      initialValue: currentUser.summary ?? "",
+                                      onSaved: (value) => _summary = value,
+                                      decoration: InputDecoration(labelText: 'Enter a summary'),
+                                    )
+                                        : Text(
+                                        currentUser.summary ?? "",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15.0
+                                        )
+                                    ),
+                                    )
+                                ),
+                              ]
+                          ),
+                          inEditMode ? SizedBox(
+                            child: ElevatedButton(
+                                child: Text('SAVE'),
+                                onPressed: () => saveSummary()
+                            ),
+                            width: 200,
                           )
+                              : Container(height:0)
                         ]
-                      ) : IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () => enterEditMode()
-                    )) : Container(height:0)
-                  )
-                )
-              ]
-            ),
-            SizedBox(height: 10.0),
-            Row(
-              children: [
-                Form(
-                  key: _formKey,
-                  child: Flexible(child:
-                    inEditMode ?
-                    TextFormField(
-                      initialValue: _summary,
-                      onSaved: (value) => _summary = value,
-                      decoration: InputDecoration(labelText: 'Enter a summary'),
                     )
-                    : Text(
-                    _summary,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15.0
-                      )
-                    ),
-                  )
-                ),
-              ]
-            ),
-            inEditMode ? SizedBox(
-              child: ElevatedButton(
-                  child: Text('SAVE'),
-                  onPressed: () => saveSummary()
-              ),
-              width: 200,
-            )
-            : Container(height:0)
-          ]
-        )
-      )
+                )
+            );
+          } else if (snapshot.hasError) {
+            return Text('Error loading user data');
+          } else {
+            return CircularProgressIndicator();
+          }
+        }
     );
   }
 
+  Future<User> getUserData() async {
+    currentUser = await userService.initUser();
+    return currentUser;
+  }
+
   String getUserSummary() {
-    return userService.currentUser.summary ?? "";
+    return userService.getSummary();
   }
 
   void saveSummary() async {

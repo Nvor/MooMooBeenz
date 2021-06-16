@@ -71,6 +71,10 @@ class UserService with ChangeNotifier {
     return "${currentUser.firstname} ${currentUser.lastname}";
   }
 
+  String getSummary() {
+    return currentUser.summary;
+  }
+
   String getPicture() {
     return currentUser.picture ?? "";
   }
