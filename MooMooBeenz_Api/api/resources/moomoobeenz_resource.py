@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 
-from ..models import MooMooBeenz
+from ..models.moomoobeenz import MooMooBeenz
 
 mooMooBeenzParser = reqparse.RequestParser()
 mooMooBeenzParser.add_argument('userId', required = True)

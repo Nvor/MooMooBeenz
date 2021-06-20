@@ -5,8 +5,8 @@ from flask_jwt_extended import JWTManager
 
 db = SQLAlchemy()
 
-from . import views, models, resource
-from .resources import moomoobeenz
+from .resources import moomoobeenz_resource, user_resource
+from .models import moomoobeenz, user, revoked_token
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -20,15 +20,15 @@ def create_app(config_name):
 
     api = Api(app)
 
-    api.add_resource(resource.UserRegistration, '/registration')
-    api.add_resource(resource.UserLogin, '/login')
-    api.add_resource(resource.UserLogoutAccess, '/logout/access')
-    api.add_resource(resource.UserLogoutRefresh, '/logout/refresh')
-    api.add_resource(resource.TokenRefresh, '/token/refresh')
-    api.add_resource(resource.AllUsers, '/users')
-    api.add_resource(resource.UserData, '/user')
-    api.add_resource(moomoobeenz.AddMooMooBeenz, '/moomoobeenz/add')
-    api.add_resource(moomoobeenz.AllMooMooBeenz, '/moomoobeenz')
+    api.add_resource(user_resource.UserRegistration, '/registration')
+    api.add_resource(user_resource.UserLogin, '/login')
+    api.add_resource(user_resource.UserLogoutAccess, '/logout/access')
+    api.add_resource(user_resource.UserLogoutRefresh, '/logout/refresh')
+    api.add_resource(user_resource.TokenRefresh, '/token/refresh')
+    api.add_resource(user_resource.AllUsers, '/users')
+    api.add_resource(user_resource.UserData, '/user')
+    api.add_resource(moomoobeenz_resource.AddMooMooBeenz, '/moomoobeenz/add')
+    api.add_resource(moomoobeenz_resource.AllMooMooBeenz, '/moomoobeenz')
 
     db.init_app(app)
 
@@ -41,6 +41,6 @@ def create_app(config_name):
     @jwt.token_in_blacklist_loader
     def verify_if_token_in_blacklist(token_to_verify):
         token = token_to_verify['token']
-        return models.RevokedToken.IsTokenRevoked(token)
+        return revoked_token.RevokedToken.IsTokenRevoked(token)
 
     return app

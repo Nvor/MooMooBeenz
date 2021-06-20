@@ -1,7 +1,8 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt
 
-from .models import User, RevokedToken, MooMooBeenz
+from ..models.user import User
+from ..models.revoked_token import RevokedToken
 
 userParser = reqparse.RequestParser()
 userParser.add_argument('username', required = True)
@@ -95,7 +96,7 @@ class UserLogoutRefresh(Resource):
             return {'message': 'Refresh token revoked'}
         except:
             return {'message': 'Failed to revoke token'}, 500
-      
+
 class TokenRefresh(Resource):
     @jwt_refresh_token_required
     def post(self):
