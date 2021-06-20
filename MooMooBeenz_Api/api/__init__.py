@@ -5,7 +5,8 @@ from flask_jwt_extended import JWTManager
 
 db = SQLAlchemy()
 
-from . import views, models, resources
+from . import views, models, resource
+from .resources import moomoobeenz
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -19,15 +20,15 @@ def create_app(config_name):
 
     api = Api(app)
 
-    api.add_resource(resources.UserRegistration, '/registration')
-    api.add_resource(resources.UserLogin, '/login')
-    api.add_resource(resources.UserLogoutAccess, '/logout/access')
-    api.add_resource(resources.UserLogoutRefresh, '/logout/refresh')
-    api.add_resource(resources.TokenRefresh, '/token/refresh')
-    api.add_resource(resources.AllUsers, '/users')
-    api.add_resource(resources.UserData, '/user')
-    api.add_resource(resources.AddMooMooBeenz, '/moomoobeenz/add')
-    api.add_resource(resources.AllMooMooBeenz, '/moomoobeenz')
+    api.add_resource(resource.UserRegistration, '/registration')
+    api.add_resource(resource.UserLogin, '/login')
+    api.add_resource(resource.UserLogoutAccess, '/logout/access')
+    api.add_resource(resource.UserLogoutRefresh, '/logout/refresh')
+    api.add_resource(resource.TokenRefresh, '/token/refresh')
+    api.add_resource(resource.AllUsers, '/users')
+    api.add_resource(resource.UserData, '/user')
+    api.add_resource(moomoobeenz.AddMooMooBeenz, '/moomoobeenz/add')
+    api.add_resource(moomoobeenz.AllMooMooBeenz, '/moomoobeenz')
 
     db.init_app(app)
 
