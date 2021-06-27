@@ -14,11 +14,17 @@ class AddMooMooBeenz(Resource):
         #if user is None:
         #    return {'message': 'Invalid user'}
         data = mooMooBeenzParser.parse_args()
-        mooMooBeenz = MooMooBeenz(
+        mooMooBeenz = MooMooBeenz.get_user_moomoobeenz_for_rater(data['raterId'], data['userId'])
+        if mooMooBeenz:
+            mooMooBeenz.userId = data['userId'],
+            mooMooBeenz.raterId = data['raterId'],
+            mooMooBeenz.mooMooBeenz = data['mooMooBeenz']
+        else:
+            mooMooBeenz = MooMooBeenz(
             userId = data['userId'],
             raterId = data['raterId'],
             mooMooBeenz = data['mooMooBeenz']
-        )
+            )
 
         try:
             mooMooBeenz.save()
@@ -26,8 +32,8 @@ class AddMooMooBeenz(Resource):
                 'message': 'UserId {} gives {} MooMooBeenz to UserId {}'
                     .format(mooMooBeenz.raterId, mooMooBeenz.mooMooBeenz, mooMooBeenz.userId)
             }, 200
-        except:
-            return {'message': 'Error trying to assign MooMooBeenz'}, 500
+        except Exception as e:
+            return {'message': 'Error trying to assign MooMooBeenz' + str(e)}, 500
 
 class AllMooMooBeenz(Resource):
     def get(self):

@@ -3,9 +3,8 @@ from .. import db
 class MooMooBeenz(db.Model):
     __tablename__ = 'MooMooBeenz'
     
-    id = db.Column(db.Integer, primary_key = True)
-    userId = db.Column(db.Integer, nullable = False)
-    raterId = db.Column(db.Integer, nullable = False)
+    userId = db.Column(db.Integer, primary_key = True)
+    raterId = db.Column(db.Integer)
     mooMooBeenz = db.Column(db.Integer, nullable = False)
 
     def save(self):
@@ -23,7 +22,6 @@ class MooMooBeenz(db.Model):
     def get_all(cls):
         def to_json(x):
             return {
-                'id': x.id,
                 'userId': x.userId,
                 'raterId': x.raterId,
                 'MooMooBeenz': x.mooMooBeenz
